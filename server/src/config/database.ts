@@ -1,5 +1,3 @@
-// src/config/database.ts
-
 import { Sequelize } from "sequelize";
 
 const sequelize = new Sequelize("todolist_ts", "root", "haianh123", {

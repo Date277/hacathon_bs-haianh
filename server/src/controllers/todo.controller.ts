@@ -1,5 +1,3 @@
-// src/controllers/todo.controller.ts
-
 import { Request, Response } from "express";
 import { Todo } from "../models/todo.model";
 
@@ -35,13 +33,20 @@ class TodoController {
         return res.status(404).json({ error: "Todo not found" });
       }
 
-      todo.title = title;
+      if (title) {
+        todo.title = title;
+      }
+
       todo.description = description;
-      todo.isCompleted = isCompleted;
+
+      if (typeof isCompleted !== "undefined") {
+        todo.isCompleted = isCompleted;
+      }
 
       await todo.save();
       return res.json(todo);
     } catch (error) {
+      console.error("Error:", error);
       return res.status(500).json({ error: "Internal server error" });
     }
   }

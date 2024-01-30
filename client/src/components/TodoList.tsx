@@ -15,7 +15,6 @@ const TodoList: React.FC = () => {
   const [newTodo, setNewTodo] = useState("");
 
   useEffect(() => {
-    // Lấy danh sách công việc khi trang được tải
     axios
       .get("http://localhost:3000/api/v1/todo")
       .then((response) => {
@@ -29,12 +28,11 @@ const TodoList: React.FC = () => {
   const addTodo = () => {
     if (newTodo.trim() === "") return;
 
-    // Gửi yêu cầu POST để thêm công việc mới
     axios
       .post("http://localhost:3000/api/v1/todo", {
         title: newTodo,
         description: "",
-        isCompleted: false, // Cần phải thêm isCompleted vì bảng CSDL có trường này
+        isCompleted: false,
       })
       .then((response) => {
         const newTodoItem = response.data;
@@ -47,11 +45,26 @@ const TodoList: React.FC = () => {
   };
 
   const removeTodo = (id: number) => {
-    // Gửi yêu cầu DELETE để xóa công việc
     axios
       .delete(`http://localhost:3000/api/v1/todo/${id}`)
       .then(() => {
         const updatedTodos = todos.filter((todo) => todo.id !== id);
+        setTodos(updatedTodos);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+
+  const completeTodo = (id: number) => {
+    axios
+      .put(`http://localhost:3000/api/v1/todo/${id}`, {
+        isCompleted: true,
+      })
+      .then(() => {
+        const updatedTodos = todos.map((todo) =>
+          todo.id === id ? { ...todo, isCompleted: true } : todo
+        );
         setTodos(updatedTodos);
       })
       .catch((error) => {
@@ -68,6 +81,7 @@ const TodoList: React.FC = () => {
             key={todo.id}
             todo={todo}
             onRemove={() => removeTodo(todo.id)}
+            onComplete={() => completeTodo(todo.id)}
           />
         ))}
       </ListGroup>

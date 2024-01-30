@@ -1,5 +1,5 @@
 import express from "express";
-import cors from "cors"; // Import middleware CORS
+import cors from "cors";
 import bodyParser from "body-parser";
 import { sequelize } from "./config/database";
 import todoRoutes from "./routes/todo.routes";
@@ -7,7 +7,7 @@ import todoRoutes from "./routes/todo.routes";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors()); // Sử dụng middleware CORS
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use(todoRoutes);

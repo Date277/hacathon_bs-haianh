@@ -1,5 +1,3 @@
-// src/models/todo.ts
-
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "../config/database";
 
@@ -34,7 +32,7 @@ Todo.init(
   },
   {
     sequelize,
-    tableName: "Todo", // Đảm bảo phù hợp với tên bảng trong CSDL
+    tableName: "Todo",
   }
 );
 
